@@ -1,5 +1,12 @@
 # Docker Monitoring with Grafana
 
+#### Docker commands
+
+```bash
+docker rm -vf $(docker ps -a -q)
+docker-compose up
+```
+
 #### Grafana HTTP API
 
 - Create Key

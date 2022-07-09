@@ -4,7 +4,7 @@
 
 CREATE DATABASE grafana
     WITH 
-    OWNER = postgres
+    OWNER = admin
     ENCODING = 'UTF8'
     LC_COLLATE = 'en_US.utf8'
     LC_CTYPE = 'en_US.utf8'
@@ -28,29 +28,37 @@ $do$
 declare timer timestamp:= current_timestamp;
 declare timer2 timestamp:= current_timestamp;
 BEGIN 
-   FOR i IN 1..10000 LOOP
+   FOR i IN 1..6000 LOOP
    	  timer:= timer - interval '1' seconds;
 	  -- RAISE NOTICE 'Time: %', timer;
 	
-      INSERT INTO public.monitor(
-		value, type, "device", "time")
-		VALUES (random() , 'cpu', 'deviceA', timer);
+    INSERT INTO public.monitor(
+      value, type, "device", "time")
+      VALUES (random() , 'cpu', 'deviceA', timer);
 
 	  INSERT INTO public.monitor(
 			value, type, "device", "time")
-			VALUES (floor(random()* 5 +1) /10  , 'cpu', 'deviceB', timer);
+			VALUES (floor(random()* 5 + 1) /10  , 'cpu', 'deviceB', timer);
+
+    INSERT INTO public.monitor(
+			value, type, "device", "time")
+			VALUES (floor(random()* 8 + 4) /10  , 'cpu', 'deviceC', timer);
    END LOOP;
-   FOR i IN 1..10000 LOOP
+   FOR i IN 1..6000 LOOP
    	  timer2:= timer2 + interval '1' seconds;
 	  -- RAISE NOTICE 'Time: %', timer2;
 	
-      INSERT INTO public.monitor(
-		value, type, "device", "time")
-		VALUES (random() , 'cpu', 'deviceA', timer2);
+    INSERT INTO public.monitor(
+      value, type, "device", "time")
+      VALUES (random() , 'cpu', 'deviceA', timer2);
 
 	  INSERT INTO public.monitor(
 			value, type, "device", "time")
-			VALUES (floor(random()* 5 +1) /10 , 'cpu', 'deviceB', timer2);
+			VALUES (floor(random()* 5 + 1) /10 , 'cpu', 'deviceB', timer2);
+
+    INSERT INTO public.monitor(
+			value, type, "device", "time")
+			VALUES (floor(random()* 8 + 4) /10  , 'cpu', 'deviceC', timer);  
    END LOOP;
 END
 $do$;
