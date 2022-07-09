@@ -33,7 +33,7 @@ services:
       GF_DATABASE_PASSWORD: postgres
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
-      - ./grafana/datasources/:/datasources
+      - ./grafana/local-datasources/:/datasources
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./grafana/plugins:/var/lib/grafana/plugins
       - grafana_storage:/var/lib/grafana
