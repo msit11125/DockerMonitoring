@@ -7,6 +7,10 @@ docker rm -vf $(docker ps -a -q)
 docker-compose up
 ```
 
+#### Lucene Query
+
+https://lucene.apache.org/core/2_9_4/queryparsersyntax.html
+
 #### Grafana HTTP API
 
 - Create Key

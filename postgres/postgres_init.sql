@@ -1,7 +1,6 @@
 --
 -- PostgreSQL database dump
 --
-
 CREATE DATABASE grafana
     WITH 
     OWNER = admin
@@ -20,48 +19,3 @@ CREATE TABLE IF NOT EXISTS public.monitor
     "time" timestamp with time zone NOT NULL,
     CONSTRAINT monitor_pkey PRIMARY KEY (id)
 );
-
-
-
-DO
-$do$
-declare timer timestamp:= current_timestamp;
-declare timer2 timestamp:= current_timestamp;
-BEGIN 
-   FOR i IN 1..6000 LOOP
-   	  timer:= timer - interval '1' seconds;
-	  -- RAISE NOTICE 'Time: %', timer;
-	
-    INSERT INTO public.monitor(
-      value, type, "device", "time")
-      VALUES (random() , 'cpu', 'deviceA', timer);
-
-	  INSERT INTO public.monitor(
-			value, type, "device", "time")
-			VALUES (floor(random()* 5 + 1) /10  , 'cpu', 'deviceB', timer);
-
-    INSERT INTO public.monitor(
-			value, type, "device", "time")
-			VALUES (floor(random()* 8 + 4) /10  , 'cpu', 'deviceC', timer);
-   END LOOP;
-   FOR i IN 1..6000 LOOP
-   	  timer2:= timer2 + interval '1' seconds;
-	  -- RAISE NOTICE 'Time: %', timer2;
-	
-    INSERT INTO public.monitor(
-      value, type, "device", "time")
-      VALUES (random() , 'cpu', 'deviceA', timer2);
-
-	  INSERT INTO public.monitor(
-			value, type, "device", "time")
-			VALUES (floor(random()* 5 + 1) /10 , 'cpu', 'deviceB', timer2);
-
-    INSERT INTO public.monitor(
-			value, type, "device", "time")
-			VALUES (floor(random()* 8 + 4) /10  , 'cpu', 'deviceC', timer);  
-   END LOOP;
-END
-$do$;
-
-
--- SELECT pg_sleep(1) ;

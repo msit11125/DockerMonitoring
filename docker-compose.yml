@@ -19,28 +19,6 @@ services:
     ports:
       - "${PROMETHEUS_PORT:-9090}:9090"
 
-  grafana:
-    image: grafana/grafana-oss:8.5.6
-    container_name: grafana
-    user: root
-    depends_on:
-      - prometheus
-    ports:
-      - "${GRAFANA_PORT:-3000}:3000"
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: admin
-      GF_DATABASE_USER: ${ADMIN}
-      GF_DATABASE_PASSWORD: ${PASSWORD}
-    volumes:
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
-      - ./grafana/local-datasources/:/datasources
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ./grafana/plugins:/var/lib/grafana/plugins
-      - grafana_storage:/var/lib/grafana
-    depends_on:
-      postgres:
-        condition: service_healthy
-      
   node-exporter:
     image: prom/node-exporter
     container_name: node-exporter
@@ -74,6 +52,7 @@ services:
       POSTGRES_PASSWORD: ${PASSWORD}
     volumes:
       -  ./postgres/postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      -  ./postgres/gen_data.sql:/gen_data.sql
     ports:
       - 5432:5432
     healthcheck:
@@ -91,3 +70,23 @@ services:
       PGADMIN_LISTEN_PORT: 5050
     ports:
       - 5050:5050
+      
+  grafana:
+    image: grafana/grafana-oss:8.5.6
+    container_name: grafana
+    user: root
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_DATABASE_USER: ${ADMIN}
+      GF_DATABASE_PASSWORD: ${PASSWORD}
+    volumes:
+      #- ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/local-datasources/:/datasources
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/plugins:/var/lib/grafana/plugins
+      - grafana_storage:/var/lib/grafana
+    depends_on:
+      postgres:
+        condition: service_healthy
