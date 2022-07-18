@@ -18,7 +18,7 @@ BEGIN
 
     INSERT INTO public.monitor(
 			value, type, "device", "time")
-			VALUES (floor(random()* 10 + 7) /10  , 'cpu', 'deviceC', timer);
+			VALUES (floor(random()* 3 + 7) /10  , 'cpu', 'deviceC', timer);
    END LOOP;
    FOR i IN 1..6000 LOOP
    	  timer2:= timer2 + interval '1' seconds;
@@ -34,7 +34,7 @@ BEGIN
 
     INSERT INTO public.monitor(
 			value, type, "device", "time")
-			VALUES (floor(random()* 10 + 7) /10  , 'cpu', 'deviceC', timer2);  
+			VALUES (floor(random()* 3 + 7) /10  , 'cpu', 'deviceC', timer2);  
    END LOOP;
 END
 $do$;
